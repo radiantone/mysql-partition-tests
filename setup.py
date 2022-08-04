@@ -37,15 +37,16 @@ class InitCommand(Command):
                 print("Database Already Exists")
 
             # Trigger to backup a new row insert
-
+"""
             insert_trigger = '''
-DELIMITER //
+DELIMITER $$
 
 CREATE TRIGGER `create_partition` BEFORE INSERT ON `tsp_tokens`
 FOR EACH ROW
 BEGIN
-ALTER table tsp_tokens PARTITION BY hash (YEAR(date)+MONTH(date)) partitions 12
-END//
+ALTER table tsp_tokens PARTITION BY hash (YEAR(date)+MONTH(date)) partitions 12;
+
+END$$
 
 DELIMITER ;
 '''
@@ -58,8 +59,13 @@ DELIMITER ;
             partition_sql = ''' 
 ALTER table tsp_tokens PARTITION BY hash (YEAR(date)+MONTH(date)) partitions 12
             '''
-            session.execute(partition_sql)
 
+            try:
+                session.execute(partition_sql)
+            except:
+                import traceback
+                print(traceback.format_exc())
+"""
 
 
 

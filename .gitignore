@@ -1,0 +1,8 @@
+dist
+*egg-info
+/**/__pycache__
+**/.~lock*
+./git
+.vscode
+.idea
+venv*
