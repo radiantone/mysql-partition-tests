@@ -1,6 +1,6 @@
 # mysql-partition-tests
 
-## Install
+## Setup & Usage
 
 ```bash
 $ python3 -m venv venv
