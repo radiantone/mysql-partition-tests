@@ -17,7 +17,7 @@ $ source venv/bin/activate
 In the setup.py file, change the DB string pointed to be DATABASE_STRING
 ```python
 MYSQL_CONNECTION_STRING = "mysql://root:rootpassword@0.0.0.0:3306/tsp"
-POSTGRES_CONNECTION_STRING = "postgresql://postgres:password@phoenix:5432/tsp"
+POSTGRES_CONNECTION_STRING = "postgresql://postgres:password@0.0.0.0:5432/tsp"
 
 DATABASE_STRING = POSTGRES_CONNECTION_STRING
 ```
