@@ -1,4 +1,4 @@
-# mysql-partition-tests
+# rdbms-partition-tests
 
 ## Setup & Usage
 
@@ -10,4 +10,14 @@ $ source venv/bin/activate
 (venv) $ python setup.py init  # init the database
 (venv) $ python setup.py populate   # populate rows
 (venv) $ python setup.py drop # drop the database
+```
+
+## Selecting MySQL or Postgres
+
+In the setup.py file, change the DB string pointed to be DATABASE_STRING
+```python
+MYSQL_CONNECTION_STRING = "mysql://root:rootpassword@0.0.0.0:3306/tsp"
+POSTGRES_CONNECTION_STRING = "postgresql://postgres:password@phoenix:5432/tsp"
+
+DATABASE_STRING = POSTGRES_CONNECTION_STRING
 ```
