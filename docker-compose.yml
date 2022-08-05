@@ -8,7 +8,26 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - mysql_db_data_container:/var/lib/mysql
+      - "mysql_db_data_container:/var/lib/mysql"
+
+  postgresdb:
+    container_name: postgresdb
+    image: postgres:latest
+    hostname: postgresdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tsp
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./conf/pg_hba.conf:/etc/pg_hba.conf"
+      - "./data:/var/lib/postgresql/data"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 6
 
 volumes:
   mysql_db_data_container:

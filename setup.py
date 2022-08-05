@@ -7,6 +7,9 @@ from sqlalchemy_utils.functions import database_exists, create_database
 from tsp.poc.mysql.models import Base, Data
 
 MYSQL_CONNECTION_STRING = "mysql://root:rootpassword@0.0.0.0:3306/tsp"
+POSTGRES_CONNECTION_STRING = "postgresql://postgres:password@phoenix:5432/tsp"
+
+DATABASE_STRING = POSTGRES_CONNECTION_STRING
 
 
 class InitCommand(Command):
@@ -27,7 +30,7 @@ class InitCommand(Command):
 
     def run(self):
         """Run command."""
-        engine = create_engine(MYSQL_CONNECTION_STRING, echo=True, future=True)
+        engine = create_engine(DATABASE_STRING, echo=True, future=True)
         with Session(engine) as session:
             if not database_exists(engine.url):  # Checks for the first time
                 create_database(engine.url)  # Create new DB
@@ -88,12 +91,15 @@ class DropCommand(Command):
     def run(self):
         """Run command."""
 
-        engine = create_engine(MYSQL_CONNECTION_STRING, echo=True, future=True)
+        engine = create_engine(DATABASE_STRING, echo=True, future=True)
         with Session(engine) as session:
             if not database_exists(engine.url):  # Checks for the first time
                 print("Database 'tsp' does not exist")
             else:
-                session.execute("drop database tsp")
+                if DATABASE_STRING == MYSQL_CONNECTION_STRING:
+                    session.execute("drop database tsp")
+                else:
+                    Base.metadata.drop_all(engine)
                 session.commit()
 
         print("Database dropped.")
@@ -118,7 +124,7 @@ class PopulateCommand(Command):
     def run(self):
         """Run command."""
 
-        engine = create_engine(MYSQL_CONNECTION_STRING, echo=True, future=True)
+        engine = create_engine(DATABASE_STRING, echo=True, future=True)
         with Session(engine) as session:
             if not database_exists(engine.url):  # Checks for the first time
                 print("Database 'tsp' does not exist")
